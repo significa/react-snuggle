@@ -1,0 +1,27 @@
+body {
+  font: 14px/1.6 sans-serif;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  background: #f8f8f8;
+}
+
+.wrap {
+  padding: 15px;
+}
+
+.card {
+  border-radius: 4px;
+  background: #fff;
+  box-shadow: 0 2px 6px 0 rgba(0, 0, 0, 0.02);
+}
+
+.card > div {
+  padding: 0.8rem;
+}
+
+ul,
+li {
+  padding: 0;
+  list-style: none;
+}

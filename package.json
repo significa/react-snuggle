@@ -8,9 +8,11 @@
     "build": "rollup -c",
     "deploy": "rm -fr ./dist && npm run build && npm publish",
     "test": "npm run lint && npm run flow",
+    "pages": "storybook-to-ghpages",
     "storybook": "start-storybook -p 6006",
     "lint": "eslint 'src/**/*.js'",
-    "flow": "flow"
+    "flow": "flow",
+    "build-storybook": "build-storybook"
   },
   "repository": {
     "type": "git",
@@ -24,7 +26,11 @@
   "homepage": "https://github.com/Significa/masonry#readme",
   "devDependencies": {
     "@significa/eslint-config-significa": "^1.0.0",
+    "@storybook/addon-knobs": "^3.4.10",
+    "@storybook/addon-links": "^3.4.10",
+    "@storybook/addons": "^3.4.10",
     "@storybook/react": "^3.4.10",
+    "@storybook/storybook-deployer": "^2.3.0",
     "babel-core": "^6.26.3",
     "babel-eslint": "^9.0.0",
     "babel-runtime": "^6.26.0",
@@ -32,13 +38,10 @@
     "flow-bin": "^0.79.1",
     "husky": "^0.14.3",
     "react": "^16.4.2",
-    "react-dom": "^16.4.2",
-    "rollup": "^0.65.0",
-    "rollup-plugin-babel": "^4.0.2",
-    "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-uglify": "^5.0.2"
+    "react-dom": "^16.4.2"
   },
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0"
-  }
+  },
+  "dependencies": {}
 }

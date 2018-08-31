@@ -1,6 +1,8 @@
 {
   "extends": "@significa/significa",
-  "globals": {
-    "window": true
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
   }
 }

@@ -13,13 +13,13 @@ type PropType = {
   children: React.ChildrenArray<React.Node>
 }
 
-class Masonry extends React.Component<PropType> {
+class Masonry extends React.PureComponent<PropType> {
   static defaultProps = {
     rowGap: 10,
     autoRows: 10,
     columnsWidth: 250,
-    container: () => <div />,
-    item: () => <div />
+    container: React.createElement("div"),
+    item: React.createElement("div")
   }
 
   reposition: boolean = false
@@ -34,6 +34,7 @@ class Masonry extends React.Component<PropType> {
   }
 
   componentDidUpdate() {
+    console.log("componentDidUpdate")
     this.setValues()
   }
 
@@ -45,6 +46,7 @@ class Masonry extends React.Component<PropType> {
       Array.from(images).forEach(
         (img: HTMLImageElement): void => {
           const imageRef = img
+
           imageRef.onload = this.setValues
         }
       )
@@ -53,24 +55,27 @@ class Masonry extends React.Component<PropType> {
 
   setValues = () => {
     const { rowGap, autoRows } = this.props
+    console.log("setValues")
+    if (this.elements.length > 0) {
+      this.elements.forEach(
+        (item: HTMLElement): null => {
+          const itemRef: HTMLElement = item
 
-    this.elements.forEach(
-      (item: HTMLElement): null => {
-        const itemRef: HTMLElement = item
+          if (itemRef && itemRef.firstElementChild) {
+            const firstElement: Element = itemRef.firstElementChild
+            const itemHeight: number = firstElement.getBoundingClientRect()
+              .height
+            const rowSpan: number = Math.ceil(
+              (itemHeight + rowGap) / (autoRows + rowGap)
+            )
 
-        if (itemRef.firstElementChild) {
-          const firstElement: Element = itemRef.firstElementChild
-          const itemHeight: number = firstElement.getBoundingClientRect().height
-          const rowSpan: number = Math.ceil(
-            (itemHeight + rowGap) / (autoRows + rowGap)
-          )
+            itemRef.style.gridRowEnd = `span ${rowSpan}`
+          }
 
-          itemRef.style.gridRowEnd = `span ${rowSpan}`
+          return null
         }
-
-        return null
-      }
-    )
+      )
+    }
 
     if (!this.reposition) {
       window.requestAnimationFrame(this.setValues)
@@ -96,8 +101,8 @@ class Masonry extends React.Component<PropType> {
   render() {
     const {
       children,
-      item = () => <div />,
-      container = () => <div />
+      item = React.createElement("div"),
+      container = React.createElement("div")
     } = this.props
     const childrenCount: boolean = React.Children.count(children) > 0
 
