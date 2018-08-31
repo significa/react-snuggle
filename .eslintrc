@@ -1,0 +1,6 @@
+{
+  "extends": "@significa/significa",
+  "globals": {
+    "window": true
+  }
+}

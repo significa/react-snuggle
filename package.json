@@ -1,0 +1,44 @@
+{
+  "name": "masonry",
+  "version": "0.0.0",
+  "description": "",
+  "main": "rollup.config.js",
+  "scripts": {
+    "dev": "npm run storybook",
+    "build": "rollup -c",
+    "deploy": "rm -fr ./dist && npm run build && npm publish",
+    "test": "npm run lint && npm run flow",
+    "storybook": "start-storybook -p 6006",
+    "lint": "eslint 'src/**/*.js'",
+    "flow": "flow"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Significa/masonry.git"
+  },
+  "author": "Significa Lda.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Significa/masonry/issues"
+  },
+  "homepage": "https://github.com/Significa/masonry#readme",
+  "devDependencies": {
+    "@significa/eslint-config-significa": "^1.0.0",
+    "@storybook/react": "^3.4.10",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^9.0.0",
+    "babel-runtime": "^6.26.0",
+    "eslint": "^5.4.0",
+    "flow-bin": "^0.79.1",
+    "husky": "^0.14.3",
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2",
+    "rollup": "^0.65.0",
+    "rollup-plugin-babel": "^4.0.2",
+    "rollup-plugin-replace": "^2.0.0",
+    "rollup-plugin-uglify": "^5.0.2"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0-0 || ^16.0.0-0"
+  }
+}
