@@ -1,5 +1,4 @@
 // @flow
-// https://codepen.io/andybarefoot/pen/QMeZda
 import * as React from "react"
 
 import key from "./uid"
@@ -34,28 +33,18 @@ class Masonry extends React.PureComponent<PropType> {
   }
 
   componentDidUpdate() {
-    console.log("componentDidUpdate")
     this.setValues()
   }
 
-  onLoadImages = () => {
-    if (this.grid) {
-      const images: HTMLCollection<HTMLImageElement> = (this
-        .grid: HTMLElement).getElementsByTagName("img")
-
-      Array.from(images).forEach(
-        (img: HTMLImageElement): void => {
-          const imageRef = img
-
-          imageRef.onload = this.setValues
-        }
-      )
+  getRef = (ref: HTMLElement) => {
+    if (ref && ref.firstElementChild) {
+      this.elements.push(ref)
     }
   }
 
   setValues = () => {
     const { rowGap, autoRows } = this.props
-    console.log("setValues")
+
     if (this.elements.length > 0) {
       this.elements.forEach(
         (item: HTMLElement): null => {
@@ -83,6 +72,21 @@ class Masonry extends React.PureComponent<PropType> {
     }
   }
 
+  onLoadImages = () => {
+    if (this.grid) {
+      const images: HTMLCollection<HTMLImageElement> = (this
+        .grid: HTMLElement).getElementsByTagName("img")
+
+      Array.from(images).forEach(
+        (img: HTMLImageElement): void => {
+          const imageRef = img
+
+          imageRef.onload = this.setValues
+        }
+      )
+    }
+  }
+
   createGridStyle = () => {
     const { rowGap = 0, autoRows = 0, columnsWidth = 0 } = this.props
 
@@ -92,10 +96,6 @@ class Masonry extends React.PureComponent<PropType> {
       gridTemplateColumns: `repeat(auto-fill, minmax(${columnsWidth}px, 1fr))`,
       gridAutoRows: `${autoRows}px`
     }
-  }
-
-  getRef = (ref: HTMLElement) => {
-    this.elements.push(ref)
   }
 
   render() {
@@ -120,7 +120,7 @@ class Masonry extends React.PureComponent<PropType> {
           if (item) {
             return React.createElement(
               item.type,
-              { ...item.props, ref: refItem, key: key() },
+              { ...item.props, ref: refItem, innerRef: refItem, key: key() },
               child
             )
           }

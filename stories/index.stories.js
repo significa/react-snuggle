@@ -1,9 +1,14 @@
 import React from "react"
 import { storiesOf } from "@storybook/react"
 import { withKnobs, text, boolean, number } from "@storybook/addon-knobs"
+import styled from "styled-components"
 
 import "./style.css"
 import Masonry from "../src"
+
+const ItemStyled = styled.div`
+  border: 1px solid red;
+`
 
 const Image = ({ index }) => (
   <img
@@ -55,6 +60,17 @@ storiesOf("Masonry", module)
       <Masonry
         container={<ul style={{ background: "#eee" }} />}
         item={<li style={{ background: "#ddd" }} />}
+      >
+        {listElements(true)}
+      </Masonry>
+    </div>
+  ))
+
+  .add("with styled-component", () => (
+    <div className="wrap">
+      <Masonry
+        container={<ul style={{ background: "#eee" }} />}
+        item={<ItemStyled />}
       >
         {listElements(true)}
       </Masonry>
