@@ -14,7 +14,7 @@ type PropType = {
 
 class Masonry extends React.PureComponent<PropType> {
   static defaultProps = {
-    rowGap: 10,
+    rowGap: 20,
     autoRows: 10,
     columnsWidth: 250,
     container: React.createElement("div"),

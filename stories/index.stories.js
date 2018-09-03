@@ -7,14 +7,12 @@ import "./style.css"
 import Masonry from "../src"
 
 const ItemStyled = styled.div`
-  border: 1px solid red;
+  color: #fff;
+  border-bottom: 1px solid #fff;
 `
 
 const Image = ({ index }) => (
-  <img
-    style={{ maxWidth: "100%" }}
-    src={`https://picsum.photos/100${index % 10}/600`}
-  />
+  <img className="image" src={`https://picsum.photos/100${index % 10}/600`} />
 )
 
 const listElements = image =>
@@ -23,9 +21,11 @@ const listElements = image =>
     .map((item, index) => (
       <div key={index}>
         {image ? <Image index={index} /> : null}
-        {index % 2 === 0
-          ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, mattis nibh ut, faucibus leo. Sed lectus libero, volutpat at eros quis, venenatis tempus neque. Nulla vel faucibus orci, nec convallis ligula. Quisque maximus gravida orci, in lacinia mauris pretium nec. Sed et enim bibendum, fermentum tellus eu, eleifend ex. Aliquam lectus magna, sollicitudin vitae placerat ac, semper ut risus. Nunc vestibulum lacus et nulla volutpat auctor."
-          : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur,"}
+        <p>
+          {index % 2 === 0
+            ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, mattis nibh ut, faucibus leo. Sed lectus libero, volutpat at eros quis, venenatis tempus neque. Nulla vel faucibus orci."
+            : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur,"}
+        </p>
       </div>
     ))
 
@@ -47,7 +47,7 @@ storiesOf("Masonry", module)
   .add("custom container (<ul />)", () => (
     <div className="wrap">
       <Masonry
-        container={<ul style={{ background: "#eee", padding: "40px" }} />}
+        container={<ul style={{ background: "#5050FF", padding: "40px" }} />}
         item={<li className="card" />}
       >
         {listElements(true)}
@@ -58,8 +58,8 @@ storiesOf("Masonry", module)
   .add("custom item (<li />)", () => (
     <div className="wrap">
       <Masonry
-        container={<ul style={{ background: "#eee" }} />}
-        item={<li style={{ background: "#ddd" }} />}
+        container={<ul style={{ background: "#5050FF" }} />}
+        item={<li style={{ background: "#fff" }} />}
       >
         {listElements(true)}
       </Masonry>
@@ -69,7 +69,7 @@ storiesOf("Masonry", module)
   .add("with styled-component", () => (
     <div className="wrap">
       <Masonry
-        container={<ul style={{ background: "#eee" }} />}
+        container={<ul style={{ background: "#5050FF" }} />}
         item={<ItemStyled />}
       >
         {listElements(true)}
@@ -79,6 +79,7 @@ storiesOf("Masonry", module)
 
   .add("custom gap", () => (
     <div className="wrap">
+      <h1>See Knobs panel</h1>
       <Masonry rowGap={number("rowGap", 20)} item={<div className="card" />}>
         {listElements(true)}
       </Masonry>
@@ -87,8 +88,9 @@ storiesOf("Masonry", module)
 
   .add("custom columns width", () => (
     <div className="wrap">
+      <h1>See Knobs panel</h1>
       <Masonry
-        columnsWidth={number("columnsWidth", 200)}
+        columnsWidth={number("columnsWidth", 400)}
         item={<div className="card" />}
       >
         {listElements(true)}
