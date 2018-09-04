@@ -54,6 +54,34 @@ storiesOf("Options", module)
     </div>
   ))
 
+  .add("as React.Node", () => {
+    const container = <ul style={{ background: "#fff" }} />
+
+    return (
+      <div className="wrap">
+        <Masonry container={container}>{listElements(true)}</Masonry>
+      </div>
+    )
+  })
+
+  .add("as React.Component", () => {
+    const Container = ({ children, style }) => (
+      <ul style={{ background: "#fff", ...style }}>{children}</ul>
+    )
+
+    return (
+      <div className="wrap">
+        <Masonry container={<Container />}>{listElements(true)}</Masonry>
+      </div>
+    )
+  })
+
+  .add("as Styled-component", () => (
+    <div className="wrap">
+      <Masonry item={<ItemStyled />}>{listElements(true)}</Masonry>
+    </div>
+  ))
+
   .add("custom gap", () => (
     <div className="wrap">
       <h1>See Knobs panel</h1>
@@ -75,11 +103,6 @@ storiesOf("Options", module)
     </div>
   ))
 
-storiesOf("Third parts", module)
-  .add("with styled-component", () => (
-    <div className="wrap">
-      <Masonry item={<ItemStyled />}>{listElements(true)}</Masonry>
-    </div>
-  ))
-
-  .add("with scroll reveal", () => <RevealAnimation />)
+storiesOf("Third parts", module).add("with scroll reveal", () => (
+  <RevealAnimation />
+))
