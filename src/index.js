@@ -1,12 +1,10 @@
 // @flow
-// https://codepen.io/andybarefoot/pen/QMeZda
 import * as React from "react"
 
 import key from "./uid"
 
 type PropType = {
   rowGap?: number,
-  autoRows?: number,
   columnsWidth?: number,
   container?: React.Element<*>,
   item?: React.Element<*>,
@@ -15,8 +13,7 @@ type PropType = {
 
 class Masonry extends React.PureComponent<PropType> {
   static defaultProps = {
-    rowGap: 10,
-    autoRows: 10,
+    rowGap: 20,
     columnsWidth: 250,
     container: React.createElement("div"),
     item: React.createElement("div")
@@ -34,8 +31,40 @@ class Masonry extends React.PureComponent<PropType> {
   }
 
   componentDidUpdate() {
-    console.log("componentDidUpdate")
     this.setValues()
+  }
+
+  getRef = (ref: HTMLElement) => {
+    if (ref && ref.firstElementChild) {
+      this.elements.push(ref)
+    }
+  }
+
+  setValues = (): void => {
+    const { rowGap = 0 } = this.props
+
+    if (this.elements.length === 0) return
+
+    this.elements.forEach(
+      (item: HTMLElement): null => {
+        const itemRef: HTMLElement = item
+
+        if (itemRef && itemRef.firstElementChild) {
+          const firstElement: Element = itemRef.firstElementChild
+          const itemHeight: number = firstElement.getBoundingClientRect().height
+          const rowSpan: number = Math.ceil((itemHeight + rowGap) / rowGap)
+
+          itemRef.style.gridRowEnd = `span ${rowSpan}`
+        }
+
+        return null
+      }
+    )
+
+    if (!this.reposition) {
+      window.requestAnimationFrame(this.setValues)
+      this.reposition = true
+    }
   }
 
   onLoadImages = () => {
@@ -53,49 +82,14 @@ class Masonry extends React.PureComponent<PropType> {
     }
   }
 
-  setValues = () => {
-    const { rowGap, autoRows } = this.props
-    console.log("setValues")
-    if (this.elements.length > 0) {
-      this.elements.forEach(
-        (item: HTMLElement): null => {
-          const itemRef: HTMLElement = item
-
-          if (itemRef && itemRef.firstElementChild) {
-            const firstElement: Element = itemRef.firstElementChild
-            const itemHeight: number = firstElement.getBoundingClientRect()
-              .height
-            const rowSpan: number = Math.ceil(
-              (itemHeight + rowGap) / (autoRows + rowGap)
-            )
-
-            itemRef.style.gridRowEnd = `span ${rowSpan}`
-          }
-
-          return null
-        }
-      )
-    }
-
-    if (!this.reposition) {
-      window.requestAnimationFrame(this.setValues)
-      this.reposition = true
-    }
-  }
-
   createGridStyle = () => {
-    const { rowGap = 0, autoRows = 0, columnsWidth = 0 } = this.props
+    const { rowGap = 0, columnsWidth = 0 } = this.props
 
     return {
       display: "grid",
       gridGap: `${rowGap}px`,
-      gridTemplateColumns: `repeat(auto-fill, minmax(${columnsWidth}px, 1fr))`,
-      gridAutoRows: `${autoRows}px`
+      gridTemplateColumns: `repeat(auto-fill, minmax(${columnsWidth}px, 1fr))`
     }
-  }
-
-  getRef = (ref: HTMLElement) => {
-    this.elements.push(ref)
   }
 
   render() {
@@ -104,43 +98,39 @@ class Masonry extends React.PureComponent<PropType> {
       item = React.createElement("div"),
       container = React.createElement("div")
     } = this.props
-    const childrenCount: boolean = React.Children.count(children) > 0
 
-    if (childrenCount) {
-      const refItem = (n: HTMLElement): void => {
-        this.getRef(n)
-      }
-      const refGrid = (n: HTMLElement): void => {
-        this.grid = n
-      }
+    const hasChildren: boolean = React.Children.count(children) > 0
 
-      const renderChildren = React.Children.map(
-        children,
-        (child: React.Node) => {
-          if (item) {
-            return React.createElement(
-              item.type,
-              { ...item.props, ref: refItem, key: key() },
-              child
-            )
-          }
+    if (!hasChildren) return null
 
-          return null
-        }
-      )
-
-      return React.createElement(
-        container.type,
-        {
-          ...container.props,
-          style: { ...container.props.style, ...this.createGridStyle() },
-          ref: refGrid
-        },
-        renderChildren
-      )
+    const refItem = (n: HTMLElement): void => {
+      this.getRef(n)
+    }
+    const refGrid = (n: HTMLElement): void => {
+      this.grid = n
     }
 
-    return null
+    const renderChildren = React.Children.map(children, (child: React.Node) => {
+      if (item) {
+        return React.createElement(
+          item.type,
+          { ...item.props, ref: refItem, innerRef: refItem, key: key() },
+          child
+        )
+      }
+
+      return null
+    })
+
+    return React.createElement(
+      container.type,
+      {
+        ...container.props,
+        style: { ...container.props.style, ...this.createGridStyle() },
+        ref: refGrid
+      },
+      renderChildren
+    )
   }
 }
 
