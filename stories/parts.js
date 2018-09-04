@@ -5,8 +5,7 @@ import ScrollReveal from "scrollreveal"
 import Masonry from "../src"
 
 export const ItemStyled = styled.div`
-  color: #fff;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #ddd;
 `
 
 export const Image = ({ index }) => (

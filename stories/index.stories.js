@@ -40,7 +40,6 @@ storiesOf("Options", module)
     <div className="wrap">
       <Masonry
         container={<ul style={{ background: "#5050FF", padding: "40px" }} />}
-        item={<li className="card" />}
       >
         {listElements(true)}
       </Masonry>
@@ -49,10 +48,7 @@ storiesOf("Options", module)
 
   .add("custom item (<li />)", () => (
     <div className="wrap">
-      <Masonry
-        container={<ul style={{ background: "#5050FF" }} />}
-        item={<li style={{ background: "#fff" }} />}
-      >
+      <Masonry item={<li style={{ background: "#fff" }} />}>
         {listElements(true)}
       </Masonry>
     </div>
@@ -82,12 +78,7 @@ storiesOf("Options", module)
 storiesOf("Third parts", module)
   .add("with styled-component", () => (
     <div className="wrap">
-      <Masonry
-        container={<ul style={{ background: "#5050FF" }} />}
-        item={<ItemStyled />}
-      >
-        {listElements(true)}
-      </Masonry>
+      <Masonry item={<ItemStyled />}>{listElements(true)}</Masonry>
     </div>
   ))
 
