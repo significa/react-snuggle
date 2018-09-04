@@ -13,8 +13,6 @@ import {
 } from "./parts"
 
 storiesOf("Masonry", module)
-  .addDecorator(withKnobs)
-
   .add("default", () => (
     <div className="wrap">
       <Masonry item={<div className="card" />}>{listElements()}</Masonry>
@@ -36,6 +34,8 @@ storiesOf("Masonry", module)
   .add("on update grid", () => <OnUpdateGrid />)
 
 storiesOf("Options", module)
+  .addDecorator(withKnobs)
+
   .add("custom container (<ul />)", () => (
     <div className="wrap">
       <Masonry
