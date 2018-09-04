@@ -7,8 +7,9 @@ const mergeAll = objs => Object.assign({}, ...objs)
 
 const commonPlugins = [
   babel({
+    presets: [["env", { modules: false }], "react", "stage-0"],
     exclude: "node_modules/**",
-    plugins: ["external-helpers"]
+    plugins: ["external-helpers", "transform-class-properties"]
   })
 ]
 

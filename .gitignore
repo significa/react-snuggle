@@ -9,3 +9,4 @@ node_modules
 dist
 coverage
 .nyc_output
+yarn-error.log
