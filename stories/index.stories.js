@@ -1,9 +1,9 @@
-import React, { Component } from "react"
+import React from "react"
 import { storiesOf } from "@storybook/react"
 import { withKnobs, text, boolean, number } from "@storybook/addon-knobs"
 
 import "./style.css"
-import Masonry from "../src"
+import Snuggle from "../src"
 
 import {
   ItemStyled,
@@ -12,22 +12,22 @@ import {
   RevealAnimation
 } from "./parts"
 
-storiesOf("Masonry", module)
+storiesOf("Snuggle", module)
   .add("default", () => (
     <div className="wrap">
-      <Masonry item={<div className="card" />}>{listElements()}</Masonry>
+      <Snuggle item={<div className="card" />}>{listElements()}</Snuggle>
     </div>
   ))
 
   .add("with images", () => (
     <div className="wrap">
-      <Masonry item={<div className="card" />}>{listElements(true)}</Masonry>
+      <Snuggle item={<div className="card" />}>{listElements(true)}</Snuggle>
     </div>
   ))
 
   .add("no style", () => (
     <div className="wrap">
-      <Masonry>{listElements()}</Masonry>
+      <Snuggle>{listElements()}</Snuggle>
     </div>
   ))
 
@@ -38,71 +38,51 @@ storiesOf("Options", module)
 
   .add("custom container (<ul />)", () => (
     <div className="wrap">
-      <Masonry
+      <Snuggle
         container={<ul style={{ background: "#5050FF", padding: "40px" }} />}
       >
         {listElements(true)}
-      </Masonry>
+      </Snuggle>
     </div>
   ))
 
   .add("custom item (<li />)", () => (
     <div className="wrap">
-      <Masonry item={<li style={{ background: "#fff" }} />}>
+      <Snuggle
+        item={<li style={{ border: "1px solid #ddd", padding: "8px" }} />}
+      >
         {listElements(true)}
-      </Masonry>
+      </Snuggle>
     </div>
   ))
 
-  .add("as React.Node", () => {
-    const container = <ul style={{ background: "#fff" }} />
-
-    return (
-      <div className="wrap">
-        <Masonry container={container}>{listElements(true)}</Masonry>
-      </div>
-    )
-  })
-
-  .add("as React.Component", () => {
-    const Container = ({ children, style }) => (
-      <ul style={{ background: "#fff", ...style }}>{children}</ul>
-    )
-
-    return (
-      <div className="wrap">
-        <Masonry container={<Container />}>{listElements(true)}</Masonry>
-      </div>
-    )
-  })
-
-  .add("as Styled-component", () => (
+  .add("with Styled Components", () => (
     <div className="wrap">
-      <Masonry item={<ItemStyled />}>{listElements(true)}</Masonry>
+      <Snuggle item={<ItemStyled />}>{listElements(true)}</Snuggle>
     </div>
   ))
 
   .add("custom gap", () => (
     <div className="wrap">
       <h1>See Knobs panel</h1>
-      <Masonry rowGap={number("rowGap", 20)} item={<div className="card" />}>
+      <Snuggle rowGap={number("rowGap", 20)} item={<div className="card" />}>
         {listElements(true)}
-      </Masonry>
+      </Snuggle>
     </div>
   ))
 
-  .add("custom columns width", () => (
+  .add("custom column width", () => (
     <div className="wrap">
       <h1>See Knobs panel</h1>
-      <Masonry
-        columnsWidth={number("columnsWidth", 400)}
+      <Snuggle
+        columnWidth={number("columnWidth", 400)}
         item={<div className="card" />}
       >
         {listElements(true)}
-      </Masonry>
+      </Snuggle>
     </div>
   ))
 
-storiesOf("Third parts", module).add("with scroll reveal", () => (
+storiesOf("Third party dependencies", module).add("with scroll reveal", () => (
   <RevealAnimation />
 ))

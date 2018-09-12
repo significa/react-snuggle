@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import styled from "styled-components"
 import ScrollReveal from "scrollreveal"
 
-import Masonry from "../src"
+import Snuggle from "../src"
 
 export const ItemStyled = styled.div`
   border-bottom: 1px solid #ddd;
@@ -44,7 +44,7 @@ export class OnUpdateGrid extends Component {
     return (
       <div className="wrap">
         <button onClick={this.random}>Update</button>
-        <Masonry item={<div className="card" />}>{this.state.arr}</Masonry>
+        <Snuggle item={<div className="card" />}>{this.state.arr}</Snuggle>
       </div>
     )
   }
@@ -62,7 +62,7 @@ export class RevealAnimation extends React.Component {
   render() {
     return (
       <div className="wrap">
-        <Masonry
+        <Snuggle
           container={<ul className="reveal" />}
           item={<li className="card" />}
         >
@@ -73,7 +73,7 @@ export class RevealAnimation extends React.Component {
           {listElements(true)}
           {listElements()}
           {listElements(true)}
-        </Masonry>
+        </Snuggle>
       </div>
     )
   }
