@@ -5,16 +5,16 @@ import key from "./uid"
 
 type PropType = {
   rowGap?: number,
-  columnsWidth?: number,
+  columnWidth?: number,
   container?: React.Element<*>,
   item?: React.Element<*>,
   children: React.ChildrenArray<React.Node>
 }
 
-class Masonry extends React.PureComponent<PropType> {
+class Snuggle extends React.PureComponent<PropType> {
   static defaultProps = {
     rowGap: 20,
-    columnsWidth: 250,
+    columnWidth: 250,
     container: React.createElement("div"),
     item: React.createElement("div")
   }
@@ -83,12 +83,12 @@ class Masonry extends React.PureComponent<PropType> {
   }
 
   createGridStyle = () => {
-    const { rowGap = 0, columnsWidth = 0 } = this.props
+    const { rowGap = 0, columnWidth = 0 } = this.props
 
     return {
       display: "grid",
       gridGap: `${rowGap}px`,
-      gridTemplateColumns: `repeat(auto-fill, minmax(${columnsWidth}px, 1fr))`
+      gridTemplateColumns: `repeat(auto-fill, minmax(${columnWidth}px, 1fr))`
     }
   }
 
@@ -134,4 +134,4 @@ class Masonry extends React.PureComponent<PropType> {
   }
 }
 
-export default Masonry
+export default Snuggle

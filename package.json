@@ -1,10 +1,20 @@
 {
-  "name": "masonry",
-  "version": "0.0.0",
-  "description": "",
-  "main": "dist/masonry.cjs.js",
-  "module": "dist/masonry.es.js",
-  "jsnext:main": "dist/masonry.es.js",
+  "name": "react-snuggle",
+  "version": "1.0.0",
+  "description": "Simple masonry-like css-based React Component",
+  "keywords": [
+    "grid",
+    "masonry",
+    "columns",
+    "tiles",
+    "pinterest",
+    "css",
+    "responsive",
+    "react"
+  ],
+  "main": "dist/react-snuggle.cjs.js",
+  "module": "dist/react-snuggle.es.js",
+  "jsnext:main": "dist/react-snuggle.es.js",
   "scripts": {
     "dev": "npm run storybook",
     "build": "rollup -c",
@@ -18,14 +28,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Significa/masonry.git"
+    "url": "git+https://github.com/Significa/react-snuggle.git"
   },
   "author": "Significa Lda.",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Significa/masonry/issues"
+    "url": "https://github.com/Significa/react-snuggle/issues"
   },
-  "homepage": "https://github.com/Significa/masonry#readme",
+  "homepage": "https://github.com/Significa/react-snuggle#readme",
   "devDependencies": {
     "@significa/eslint-config-significa": "^1.0.0",
     "@storybook/addon-knobs": "^3.4.10",
