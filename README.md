@@ -7,7 +7,7 @@ Snuggle all your components really tight 🛌
 
 [Demo](https://significa.github.io/react-snuggle/)
 
-Like a loving couple snuggling in bed, `react-snuggle` basically tries to move everything very intimate and comfortable by filling every space available (using CSS grid and a bit of javascript).
+Like a loving couple snuggling in bed, `react-snuggle` basically tries to make everything very intimate and comfortable by filling every space available (using CSS grid and a bit of javascript).
 
 ## Features
 
