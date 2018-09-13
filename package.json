@@ -24,7 +24,8 @@
     "storybook": "start-storybook -p 6006",
     "lint": "eslint 'src/**/*.js'",
     "flow": "flow",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "publish": "rm -rf ./dist && npm run build && npm publish"
   },
   "repository": {
     "type": "git",

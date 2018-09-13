@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from "react"
 import styled from "styled-components"
 import ScrollReveal from "scrollreveal"
@@ -66,13 +67,24 @@ export class RevealAnimation extends React.Component {
           container={<ul className="reveal" />}
           item={<li className="card" />}
         >
-          {listElements(true)}
-          {listElements()}
-          {listElements(true)}
-          {listElements()}
-          {listElements(true)}
-          {listElements()}
-          {listElements(true)}
+          {Array(120)
+            .fill(" ")
+            .map((item, index) => (
+              <div key={index}>
+                {index % 3 ? (
+                  <img
+                    className="image"
+                    src={`https://picsum.photos/400/300`}
+                    height="150"
+                  />
+                ) : null}
+                <p>
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+                  facilisis fringilla laoreet. Mauris mattis enim ut felis
+                  consectetur
+                </p>
+              </div>
+            ))}
         </Snuggle>
       </div>
     )

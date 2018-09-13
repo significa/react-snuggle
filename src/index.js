@@ -76,7 +76,9 @@ class Snuggle extends React.PureComponent<PropType> {
         (img: HTMLImageElement): void => {
           const imageRef = img
 
-          imageRef.onload = this.setValues
+          imageRef.onload = () => {
+            this.setValues()
+          }
         }
       )
     }
