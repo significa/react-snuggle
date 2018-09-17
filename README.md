@@ -19,7 +19,7 @@ Like a loving couple snuggling in bed, `react-snuggle` basically tries to make e
 #### Install:
 
 ```sh
-yarn add react-snuggle
+yarn add @significa/react-snuggle
 ```
 
 #### Usage:
