@@ -25,7 +25,7 @@ yarn add @significa/react-snuggle
 #### Usage:
 
 ```jsx
-import Snuggle from "react-snuggle";
+import Snuggle from "@significa/react-snuggle";
 
 const List = () => (
   <Snuggle>
