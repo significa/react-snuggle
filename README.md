@@ -19,13 +19,13 @@ Like a loving couple snuggling in bed, `react-snuggle` basically tries to make e
 #### Install:
 
 ```sh
-yarn add @significa/react-snuggle
+yarn add react-snuggle
 ```
 
 #### Usage:
 
 ```jsx
-import Snuggle from "@significa/react-snuggle";
+import Snuggle from "react-snuggle";
 
 const List = () => (
   <Snuggle>
