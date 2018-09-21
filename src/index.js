@@ -98,7 +98,8 @@ class Snuggle extends React.PureComponent<PropType> {
     const {
       children,
       item = React.createElement("div"),
-      container = React.createElement("div")
+      container = React.createElement("div"),
+      ...compProps
     } = this.props
 
     const hasChildren: boolean = React.Children.count(children) > 0
@@ -128,6 +129,7 @@ class Snuggle extends React.PureComponent<PropType> {
       container.type,
       {
         ...container.props,
+        ...compProps,
         style: { ...container.props.style, ...this.createGridStyle() },
         ref: refGrid
       },
