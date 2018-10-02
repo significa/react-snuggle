@@ -1,6 +1,7 @@
 {
   "extends": "@significa/significa",
   "env": {
+    "jest": true,
     "browser": true,
     "node": true,
     "es6": true
