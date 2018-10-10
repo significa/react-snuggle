@@ -2,6 +2,7 @@
 import * as React from "react"
 
 import key from "./uid"
+import removeKeys from "./removeKeys"
 
 type PropType = {
   rowGap?: number,
@@ -10,6 +11,9 @@ type PropType = {
   item?: React.Element<*>,
   children: React.ChildrenArray<React.Node>
 }
+
+const blackListProps = ["rowGap", "columnWidth"]
+const removeBlackListed = removeKeys(blackListProps)
 
 class Snuggle extends React.PureComponent<PropType> {
   static defaultProps = {
@@ -114,27 +118,28 @@ class Snuggle extends React.PureComponent<PropType> {
     }
 
     const renderChildren = React.Children.map(children, (child: React.Node) => {
+      const itemProps = removeBlackListed({
+        ...item.props,
+        ref: refItem,
+        innerRef: refItem,
+        key: key()
+      })
+
       if (item) {
-        return React.createElement(
-          item.type,
-          { ...item.props, ref: refItem, innerRef: refItem, key: key() },
-          child
-        )
+        return React.createElement(item.type, itemProps, child)
       }
 
       return null
     })
 
-    return React.createElement(
-      container.type,
-      {
-        ...container.props,
-        ...compProps,
-        style: { ...container.props.style, ...this.createGridStyle() },
-        ref: refGrid
-      },
-      renderChildren
-    )
+    const containerProps = removeBlackListed({
+      ...container.props,
+      ...compProps,
+      style: { ...container.props.style, ...this.createGridStyle() },
+      ref: refGrid
+    })
+
+    return React.createElement(container.type, containerProps, renderChildren)
   }
 }
 
