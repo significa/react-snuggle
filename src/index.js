@@ -3,6 +3,7 @@ import * as React from "react"
 
 import key from "./uid"
 import removeKeys from "./removeKeys"
+import inViewPort from "./inViewPort"
 
 type PropType = {
   rowGap?: number,
@@ -32,10 +33,41 @@ class Snuggle extends React.PureComponent<PropType> {
   componentDidMount() {
     this.setValues()
     this.onLoadImages()
+    if (this.props.lazy) this.lazyLoad()
   }
 
   componentDidUpdate() {
     this.setValues()
+  }
+
+  componentWillUnmount() {
+    if (this.props.lazy) window.cancelAnimationFrame(this.lazyLoad)
+  }
+
+  lazyLoad = () => {
+    if (this.grid) {
+      const images: HTMLCollection<HTMLImageElement> = (this
+        .grid: HTMLElement).querySelectorAll("[data-src]")
+
+      Array.from(images).forEach(
+        (item: HTMLElement): null => {
+          if (inViewPort(item)) {
+            const image = item
+
+            image.src = item.dataset.src
+            image.onload = () => {
+              this.setValues()
+            }
+          }
+
+          return null
+        }
+      )
+    }
+
+    console.log("Infinity loop")
+
+    window.requestAnimationFrame(this.lazyLoad)
   }
 
   getRef = (ref: HTMLElement) => {

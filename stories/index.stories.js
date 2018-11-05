@@ -19,9 +19,11 @@ storiesOf("Snuggle", module)
     </div>
   ))
 
-  .add("with images", () => (
+  .add("with image", () => (
     <div className="wrap">
-      <Snuggle item={<div className="card" />}>{listElements(true)}</Snuggle>
+      <Snuggle item={<div className="card" />}>
+        {listElements({ image: true })}
+      </Snuggle>
     </div>
   ))
 
@@ -41,7 +43,7 @@ storiesOf("Options", module)
       <Snuggle
         container={<ul style={{ background: "#5050FF", padding: "40px" }} />}
       >
-        {listElements(true)}
+        {listElements({ image: true })}
       </Snuggle>
     </div>
   ))
@@ -51,14 +53,14 @@ storiesOf("Options", module)
       <Snuggle
         item={<li style={{ border: "1px solid #ddd", padding: "8px" }} />}
       >
-        {listElements(true)}
+        {listElements({ image: true })}
       </Snuggle>
     </div>
   ))
 
   .add("with Styled Components", () => (
     <div className="wrap">
-      <Snuggle item={<ItemStyled />}>{listElements(true)}</Snuggle>
+      <Snuggle item={<ItemStyled />}>{listElements({ image: true })}</Snuggle>
     </div>
   ))
 
@@ -66,7 +68,7 @@ storiesOf("Options", module)
     <div className="wrap">
       <h1>See Knobs panel</h1>
       <Snuggle rowGap={number("rowGap", 20)} item={<div className="card" />}>
-        {listElements(true)}
+        {listElements({ image: true })}
       </Snuggle>
     </div>
   ))
@@ -78,7 +80,16 @@ storiesOf("Options", module)
         columnWidth={number("columnWidth", 400)}
         item={<div className="card" />}
       >
-        {listElements(true)}
+        {listElements({ image: true })}
+      </Snuggle>
+    </div>
+  ))
+
+  .add("lazy load", () => (
+    <div className="wrap">
+      <h1>Lazy load</h1>
+      <Snuggle item={<div className="card" />} lazy>
+        {listElements({ image: true, lazy: true })}
       </Snuggle>
     </div>
   ))

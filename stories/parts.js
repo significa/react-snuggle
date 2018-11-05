@@ -9,16 +9,24 @@ export const ItemStyled = styled.div`
   border-bottom: 1px solid #ddd;
 `
 
-export const Image = ({ index }) => (
-  <img className="image" src={`https://picsum.photos/100${index % 10}/600`} />
-)
+export const Image = ({ index, lazy }) => {
+  return lazy ? (
+    <img
+      src=""
+      className="image"
+      data-src={`https://picsum.photos/100${index % 10}/600`}
+    />
+  ) : (
+    <img className="image" src={`https://picsum.photos/100${index % 10}/600`} />
+  )
+}
 
-export const listElements = image =>
+export const listElements = ({ image, lazy } = { image: false, lazy: false }) =>
   Array(30)
     .fill(" ")
     .map((item, index) => (
       <div key={index}>
-        {image ? <Image index={index} /> : null}
+        {image ? <Image lazy={lazy} index={index} /> : null}
         <p>
           {index % 2 === 0
             ? "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, mattis nibh ut, faucibus leo. Sed lectus libero, volutpat at eros quis, venenatis tempus neque. Nulla vel faucibus orci."
