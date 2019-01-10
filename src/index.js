@@ -121,7 +121,6 @@ class Snuggle extends React.PureComponent<PropType> {
       const itemProps = removeBlackListed({
         ...item.props,
         ref: refItem,
-        innerRef: refItem,
         key: key()
       })
 
