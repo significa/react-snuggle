@@ -1,6 +1,5 @@
-// @flow
-export default (blackList: Array<string>) => (obj: {}): {} => {
-  const cleanObj = obj
+export default (blackList: string[]) => (obj: {}): {} => {
+  const cleanObj: any = obj
 
   blackList.forEach(
     (item: string) =>
