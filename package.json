@@ -24,7 +24,8 @@
     "publish:storybook": "storybook-to-ghpages",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "tsc": "node_modules/.bin/tsc",
-    "tsc:watch": "npm run tsc -- --watch"
+    "tsc:watch": "npm run tsc -- --watch",
+    "semantic-release": "semantic-release"
   },
   "repository": {
     "type": "git",
@@ -49,7 +50,9 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.5",
     "babel-runtime": "^6.26.0",
+    "commitizen": "^3.0.5",
     "css-loader": "^2.1.0",
+    "cz-conventional-changelog": "^2.1.0",
     "husky": "^0.14.3",
     "prettier": "^1.16.3",
     "react": "^16.4.2",
@@ -60,6 +63,7 @@
     "rollup-plugin-typescript2": "^0.18.0",
     "rollup-plugin-uglify-es": "^0.0.1",
     "scrollreveal": "^4.0.0",
+    "semantic-release": "^15.13.3",
     "style-loader": "^0.23.1",
     "styled-components": "^4.1.2",
     "tslint": "^5.12.0",
@@ -70,5 +74,10 @@
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
 }
