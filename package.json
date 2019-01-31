@@ -19,9 +19,8 @@
   "scripts": {
     "dev": "start-storybook -p 6006",
     "build": "rm -fr ./dist && rollup -c",
-    "build:storybook": "build-storybook",
     "test": "npm run lint && npm run tsc",
-    "publish:storybook": "storybook-to-ghpages",
+    "publish:storybook": "build-storybook && storybook-to-ghpages",
     "format": "prettier --write \"src/**/*.tsx\"",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
     "tsc": "node_modules/.bin/tsc",
@@ -29,14 +28,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Significa/react-snuggle.git"
+    "url": "git+https://github.com/significa/react-snuggle.git"
   },
   "author": "Significa Lda.",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Significa/react-snuggle/issues"
+    "url": "https://github.com/significa/react-snuggle/issues"
   },
-  "homepage": "https://github.com/Significa/react-snuggle#readme",
+  "homepage": "https://github.com/significa/react-snuggle#readme",
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
@@ -45,6 +44,7 @@
     "@storybook/addon-storysource": "^4.1.11",
     "@storybook/addon-viewport": "^4.1.11",
     "@storybook/react": "^4.1.11",
+    "@storybook/storybook-deployer": "^2.8.1",
     "@types/react": "^16.7.22",
     "@types/storybook__react": "^4.0.0",
     "awesome-typescript-loader": "^5.2.1",
