@@ -107,8 +107,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
           grid-gap: ${rowGap}px;
           grid-template-columns: repeat(auto-fill, minmax(${columnWidth}px, 1fr));
         }
-      </style>
-    `
+      </style>`
   }
 
   render() {
