@@ -1,6 +1,6 @@
 {
   "name": "react-snuggle",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Simple masonry-like css-based React Component",
   "keywords": [
     "grid",
