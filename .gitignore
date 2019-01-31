@@ -10,3 +10,5 @@ dist
 coverage
 .nyc_output
 yarn-error.log
+.rpt2_cache
+storybook-static

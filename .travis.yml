@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - 9
+cache:
+  directories:
+    - node_modules
+branches:
+  only:
+    - master
+notifications:
+  email: false
+script:
+  - npm run test
+  - npm run build
+after_success:
+  - npm run semantic-release

@@ -1,31 +1,29 @@
-// @flow
-import * as React from "react"
+import * as React from 'react'
 
-import key from "./uid"
-import removeKeys from "./removeKeys"
+import removeKeys from './removeKeys'
+import key from './uid'
 
-type PropType = {
-  rowGap?: number,
-  columnWidth?: number,
-  container?: React.Element<*>,
-  item?: React.Element<*>,
-  children: React.ChildrenArray<React.Node>
+interface ISnuggle {
+  columnWidth?: number
+  container?: React.ReactElement<any>
+  item?: React.ReactElement<any>
+  rowGap?: number
 }
 
-const blackListProps = ["rowGap", "columnWidth"]
+const blackListProps = ['rowGap', 'columnWidth']
 const removeBlackListed = removeKeys(blackListProps)
 
-class Snuggle extends React.PureComponent<PropType> {
+class Snuggle extends React.PureComponent<ISnuggle> {
   static defaultProps = {
-    rowGap: 20,
     columnWidth: 250,
-    container: React.createElement("div"),
-    item: React.createElement("div")
+    container: React.createElement('div'),
+    item: React.createElement('div'),
+    rowGap: 20,
   }
 
   reposition: boolean = false
 
-  elements: Array<HTMLElement> = []
+  elements: HTMLElement[] = []
 
   grid: null | HTMLElement = null
 
@@ -44,10 +42,12 @@ class Snuggle extends React.PureComponent<PropType> {
     }
   }
 
-  setValues = (): void => {
+  setValues = (): null => {
     const { rowGap = 0 } = this.props
 
-    if (this.elements.length === 0) return
+    if (this.elements.length === 0) {
+      return null
+    }
 
     this.elements.forEach(
       (item: HTMLElement): null => {
@@ -73,8 +73,7 @@ class Snuggle extends React.PureComponent<PropType> {
 
   onLoadImages = () => {
     if (this.grid) {
-      const images: HTMLCollection<HTMLImageElement> = (this
-        .grid: HTMLElement).getElementsByTagName("img")
+      const images = this.grid.getElementsByTagName('img')
 
       Array.from(images).forEach(
         (img: HTMLImageElement): void => {
@@ -92,23 +91,25 @@ class Snuggle extends React.PureComponent<PropType> {
     const { rowGap = 0, columnWidth = 0 } = this.props
 
     return {
-      display: "grid",
+      display: 'grid',
       gridGap: `${rowGap}px`,
-      gridTemplateColumns: `repeat(auto-fill, minmax(${columnWidth}px, 1fr))`
+      gridTemplateColumns: `repeat(auto-fill, minmax(${columnWidth}px, 1fr))`,
     }
   }
 
   render() {
     const {
       children,
-      item = React.createElement("div"),
-      container = React.createElement("div"),
+      item = React.createElement('div'),
+      container = React.createElement('div'),
       ...compProps
     } = this.props
 
     const hasChildren: boolean = React.Children.count(children) > 0
 
-    if (!hasChildren) return null
+    if (!hasChildren) {
+      return null
+    }
 
     const refItem = (n: HTMLElement): void => {
       this.getRef(n)
@@ -117,25 +118,28 @@ class Snuggle extends React.PureComponent<PropType> {
       this.grid = n
     }
 
-    const renderChildren = React.Children.map(children, (child: React.Node) => {
-      const itemProps = removeBlackListed({
-        ...item.props,
-        ref: refItem,
-        key: key()
-      })
+    const renderChildren = React.Children.map(
+      children,
+      (child: React.ReactNode) => {
+        const itemProps = removeBlackListed({
+          ...item.props,
+          key: key(),
+          ref: refItem,
+        })
 
-      if (item) {
-        return React.createElement(item.type, itemProps, child)
+        if (item) {
+          return React.createElement(item.type, itemProps, child)
+        }
+
+        return null
       }
-
-      return null
-    })
+    )
 
     const containerProps = removeBlackListed({
       ...container.props,
       ...compProps,
+      ref: refGrid,
       style: { ...container.props.style, ...this.createGridStyle() },
-      ref: refGrid
     })
 
     return React.createElement(container.type, containerProps, renderChildren)
