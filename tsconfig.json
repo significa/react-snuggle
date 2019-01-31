@@ -9,7 +9,8 @@
     "noImplicitAny": true,
     "resolveJsonModule": true, // To load package.json
     "esModuleInterop": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noEmit": true
   },
   "include": ["./src/**/*"],
   "exclude": ["node_modules"]
