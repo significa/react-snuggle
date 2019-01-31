@@ -23,8 +23,7 @@
     "test": "npm run lint && npm run tsc",
     "publish:storybook": "storybook-to-ghpages",
     "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
-    "tsc": "node_modules/.bin/tsc",
-    "tsc:watch": "npm run tsc -- --watch"
+    "tsc": "node_modules/.bin/tsc"
   },
   "repository": {
     "type": "git",
@@ -45,11 +44,11 @@
     "@storybook/addon-viewport": "^4.1.11",
     "@storybook/react": "^4.1.11",
     "@types/react": "^16.7.22",
+    "@types/storybook__react": "^4.0.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.5",
     "babel-runtime": "^6.26.0",
-    "css-loader": "^2.1.0",
     "husky": "^0.14.3",
     "prettier": "^1.16.3",
     "react": "^16.4.2",
@@ -60,7 +59,6 @@
     "rollup-plugin-typescript2": "^0.18.0",
     "rollup-plugin-uglify-es": "^0.0.1",
     "scrollreveal": "^4.0.0",
-    "style-loader": "^0.23.1",
     "styled-components": "^4.1.2",
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
