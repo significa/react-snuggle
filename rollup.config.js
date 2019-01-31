@@ -1,5 +1,4 @@
 import replace from 'rollup-plugin-replace'
-// import { uglify } from 'rollup-plugin-uglify'
 import uglify from 'rollup-plugin-uglify-es'
 import typescript from 'rollup-plugin-typescript2'
 import pkg from './package.json'
