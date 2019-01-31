@@ -8,9 +8,10 @@ interface ISnuggle {
   container?: React.ReactElement<any>
   item?: React.ReactElement<any>
   rowGap?: number
+  uniqueid?: string
 }
 
-const blackListProps = ['rowGap', 'columnWidth']
+const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
 const removeBlackListed = removeKeys(blackListProps)
 
 class Snuggle extends React.PureComponent<ISnuggle> {
@@ -19,13 +20,22 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     container: React.createElement('div'),
     item: React.createElement('div'),
     rowGap: 20,
+    uniqueid: '',
   }
+
+  gridId: string | null = null
 
   reposition: boolean = false
 
   elements: HTMLElement[] = []
 
   grid: null | HTMLElement = null
+
+  constructor(props: ISnuggle) {
+    super(props)
+
+    this.gridId = `snuggle--${props.uniqueid || key()}`
+  }
 
   componentDidMount() {
     this.setValues()
@@ -90,11 +100,15 @@ class Snuggle extends React.PureComponent<ISnuggle> {
   createGridStyle = () => {
     const { rowGap = 0, columnWidth = 0 } = this.props
 
-    return {
-      display: 'grid',
-      gridGap: `${rowGap}px`,
-      gridTemplateColumns: `repeat(auto-fill, minmax(${columnWidth}px, 1fr))`,
-    }
+    return `
+      <style>
+        .${this.gridId} {
+          display: grid;
+          grid-gap: ${rowGap}px;
+          grid-template-columns: repeat(auto-fill, minmax(${columnWidth}px, 1fr));
+        }
+      </style>
+    `
   }
 
   render() {
@@ -114,6 +128,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     const refItem = (n: HTMLElement): void => {
       this.getRef(n)
     }
+
     const refGrid = (n: HTMLElement): void => {
       this.grid = n
     }
@@ -138,11 +153,18 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     const containerProps = removeBlackListed({
       ...container.props,
       ...compProps,
+      className: `${this.gridId} ${container.props.className || ''}`,
       ref: refGrid,
-      style: { ...container.props.style, ...this.createGridStyle() },
     })
 
-    return React.createElement(container.type, containerProps, renderChildren)
+    return (
+      <>
+        {React.createElement('div', {
+          dangerouslySetInnerHTML: { __html: this.createGridStyle() },
+        })}
+        {React.createElement(container.type, containerProps, renderChildren)}
+      </>
+    )
   }
 }
 
