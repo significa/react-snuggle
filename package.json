@@ -19,10 +19,12 @@
   "scripts": {
     "dev": "start-storybook -p 6006",
     "build": "rm -fr ./dist && rollup -c",
-    "test": "npm run lint && npm run tsc",
+    "test": "npm run lint && npm run tsc && npm run test:jest",
+    "test:jest": "jest",
+    "test:jest:watch": "npm run test:jest -- --watch",
     "publish:storybook": "build-storybook && storybook-to-ghpages",
     "format": "prettier --write \"src/**/*.tsx\"",
-    "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'",
+    "lint": "tslint -c tslint.json *.ts *.tsx",
     "tsc": "node_modules/.bin/tsc",
     "semantic-release": "semantic-release"
   },
@@ -55,6 +57,7 @@
     "css-loader": "^2.1.0",
     "cz-conventional-changelog": "^2.1.0",
     "husky": "^1.3.1",
+    "jest": "^24.1.0",
     "prettier": "^1.16.3",
     "react": "^16.4.2",
     "react-docgen-typescript-loader": "^3.0.1",
@@ -74,7 +77,9 @@
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-jest": "^24.1.0"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
