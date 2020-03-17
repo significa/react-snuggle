@@ -61,7 +61,7 @@
     "react-dom": "^16.4.2",
     "rollup": "0.66.4",
     "rollup-plugin-replace": "^2.0.0",
-    "rollup-plugin-typescript2": "^0.18.0",
+    "rollup-plugin-typescript2": "^0.26.0",
     "rollup-plugin-uglify-es": "^0.0.1",
     "scrollreveal": "^4.0.0",
     "semantic-release": "^15.13.3",

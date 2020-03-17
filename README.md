@@ -25,7 +25,7 @@ yarn add react-snuggle
 #### Usage:
 
 ```jsx
-import Snuggle from "react-snuggle";
+import Snuggle from 'react-snuggle'
 
 const List = () => (
   <Snuggle>
@@ -33,7 +33,7 @@ const List = () => (
     <div>Item</div>
     ...
   </Snuggle>
-);
+)
 ```
 
 ### Options
@@ -44,6 +44,29 @@ const List = () => (
 | container   | _React.Element_ | `<div />` |
 | rowGap      | _Number_        | 10        |
 | columnWidth | _Number_        | 250       |
+
+### Methods
+
+**resize**
+Recalculate all spaces available and snuggle each element z its space, it is helpful for lazing loading, resize listeners, and loading images.
+
+Example:
+
+```jsx
+const Component = () => {
+  const snuggleRef = useRef()
+
+  const onLoad = () => {
+    snuggleRef.current.resize()
+  }
+
+  return (
+    <Snuggle ref={snuggleRef}>
+      <img src="example.jpg" onLoad={onLoad} />
+    </Snuggle>
+  )
+}
+```
 
 ### Todo
 
