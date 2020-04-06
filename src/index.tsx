@@ -9,6 +9,7 @@ interface ISnuggle {
   item?: React.ReactElement<any>
   rowGap?: number
   uniqueid?: string
+  innerRef?: any
 }
 
 const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
@@ -35,6 +36,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     super(props)
 
     this.gridId = `snuggle--${props.uniqueid || key()}`
+    props.innerRef.current = { resize: this.setValues }
   }
 
   componentDidMount() {
@@ -59,21 +61,19 @@ class Snuggle extends React.PureComponent<ISnuggle> {
       return null
     }
 
-    this.elements.forEach(
-      (item: HTMLElement): null => {
-        const itemRef: HTMLElement = item
+    this.elements.forEach((item: HTMLElement): null => {
+      const itemRef: HTMLElement = item
 
-        if (itemRef && itemRef.firstElementChild) {
-          const firstElement: Element = itemRef.firstElementChild
-          const itemHeight: number = firstElement.getBoundingClientRect().height
-          const rowSpan: number = Math.ceil((itemHeight + rowGap) / rowGap)
+      if (itemRef && itemRef.firstElementChild) {
+        const firstElement: Element = itemRef.firstElementChild
+        const itemHeight: number = firstElement.getBoundingClientRect().height
+        const rowSpan: number = Math.ceil((itemHeight + rowGap) / rowGap)
 
-          itemRef.style.gridRowEnd = `span ${rowSpan}`
-        }
-
-        return null
+        itemRef.style.gridRowEnd = `span ${rowSpan}`
       }
-    )
+
+      return null
+    })
 
     if (!this.reposition) {
       window.requestAnimationFrame(this.setValues)
@@ -85,15 +85,13 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     if (this.grid) {
       const images = this.grid.getElementsByTagName('img')
 
-      Array.from(images).forEach(
-        (img: HTMLImageElement): void => {
-          const imageRef = img
+      Array.from(images).forEach((img: HTMLImageElement): void => {
+        const imageRef = img
 
-          imageRef.onload = () => {
-            this.setValues()
-          }
+        imageRef.onload = () => {
+          this.setValues()
         }
-      )
+      })
     }
   }
 
@@ -167,4 +165,6 @@ class Snuggle extends React.PureComponent<ISnuggle> {
   }
 }
 
-export default Snuggle
+export default React.forwardRef((props: ISnuggle, ref: any) => (
+  <Snuggle innerRef={ref} {...props} />
+))
