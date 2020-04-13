@@ -36,7 +36,6 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     super(props)
 
     this.gridId = `snuggle--${props.uniqueid || key()}`
-    props.innerRef.current = { resize: this.setValues }
   }
 
   componentDidMount() {
@@ -113,6 +112,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
       children,
       item = React.createElement('div'),
       container = React.createElement('div'),
+      innerRef,
       ...compProps
     } = this.props
 
@@ -126,8 +126,13 @@ class Snuggle extends React.PureComponent<ISnuggle> {
       this.getRef(n)
     }
 
-    const refGrid = (n: HTMLElement): void => {
-      this.grid = n
+    const refGrid = (node: HTMLElement): void => {
+      this.grid = node
+
+      if (innerRef) {
+        innerRef.current = node
+        innerRef.current.resize = this.setValues
+      }
     }
 
     const renderChildren = React.Children.map(

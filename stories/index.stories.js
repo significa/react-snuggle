@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import { storiesOf } from '@storybook/react'
 import { withKnobs, text, boolean, number } from '@storybook/addon-knobs'
 
@@ -15,7 +15,7 @@ import {
 storiesOf('Snuggle', module)
   .add('default', () => (
     <div className="wrap">
-      <Snuggle item={<div className="card" />}>{listElements()}</Snuggle>
+      <Snuggle>{listElements()}</Snuggle>
     </div>
   ))
 
@@ -32,6 +32,30 @@ storiesOf('Snuggle', module)
   ))
 
   .add('on update grid', () => <OnUpdateGrid />)
+
+const ResizeElements = () => {
+  const ref = useRef()
+
+  useEffect(() => {
+    const setResize = () => {
+      if (ref.current && ref.current.resize) {
+        ref.current.resize()
+      }
+    }
+
+    window.addEventListener('resize', setResize)
+
+    return () => {
+      window.removeEventListener('resize', setResize)
+    }
+  }, [])
+
+  return (
+    <div className="wrap">
+      <Snuggle ref={ref}>{listElements()}</Snuggle>
+    </div>
+  )
+}
 
 storiesOf('Options', module)
   .addDecorator(withKnobs)
@@ -87,6 +111,8 @@ storiesOf('Options', module)
       </Snuggle>
     </div>
   ))
+
+  .add('on resize method', () => <ResizeElements />)
 
 storiesOf('Third party dependencies', module).add('with scroll reveal', () => (
   <RevealAnimation />

@@ -57,7 +57,9 @@ const Component = () => {
   const snuggleRef = useRef()
 
   const onLoad = () => {
-    snuggleRef.current.resize()
+    if (snuggleRef.current) {
+      snuggleRef.current.resize()
+    }
   }
 
   return (
