@@ -129,7 +129,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     const refGrid = (node: HTMLElement): void => {
       this.grid = node
 
-      if (innerRef) {
+      if (innerRef.current) {
         innerRef.current = node
         innerRef.current.resize = this.setValues
       }
