@@ -1,9 +1,10 @@
 import replace from 'rollup-plugin-replace'
 import uglify from 'rollup-plugin-uglify-es'
 import typescript from 'rollup-plugin-typescript2'
+
 import pkg from './package.json'
 
-const mergeAll = objs => Object.assign({}, ...objs)
+const mergeAll = (objs) => Object.assign({}, ...objs)
 
 const commonPlugins = [
   typescript({

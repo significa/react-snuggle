@@ -3,19 +3,22 @@ import * as React from 'react'
 import removeKeys from './removeKeys'
 import key from './uid'
 
-interface ISnuggle {
+interface SnuggleProps {
   columnWidth?: number
   container?: React.ReactElement<any>
   item?: React.ReactElement<any>
   rowGap?: number
   uniqueid?: string
   innerRef?: any
+  ref?: React.RefObject<
+    React.ComponentType<SnuggleProps> & { resize: () => void }
+  >
 }
 
 const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
 const removeBlackListed = removeKeys(blackListProps)
 
-class Snuggle extends React.PureComponent<ISnuggle> {
+class Snuggle extends React.Component<SnuggleProps> {
   static defaultProps = {
     columnWidth: 250,
     container: React.createElement('div'),
@@ -26,13 +29,13 @@ class Snuggle extends React.PureComponent<ISnuggle> {
 
   gridId: string | null = null
 
-  reposition: boolean = false
+  reposition = false
 
   elements: HTMLElement[] = []
 
   grid: null | HTMLElement = null
 
-  constructor(props: ISnuggle) {
+  constructor(props: SnuggleProps) {
     super(props)
 
     this.gridId = `snuggle--${props.uniqueid || key()}`
@@ -53,14 +56,14 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     }
   }
 
-  setValues = (): null => {
+  setValues = () => {
     const { rowGap = 0 } = this.props
 
     if (this.elements.length === 0) {
-      return null
+      return
     }
 
-    this.elements.forEach((item: HTMLElement): null => {
+    this.elements.forEach((item: HTMLElement) => {
       const itemRef: HTMLElement = item
 
       if (itemRef && itemRef.firstElementChild) {
@@ -70,8 +73,6 @@ class Snuggle extends React.PureComponent<ISnuggle> {
 
         itemRef.style.gridRowEnd = `span ${rowSpan}`
       }
-
-      return null
     })
 
     if (!this.reposition) {
@@ -129,7 +130,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     const refGrid = (node: HTMLElement): void => {
       this.grid = node
 
-      if (innerRef.current) {
+      if (innerRef && innerRef.current) {
         innerRef.current = node
         innerRef.current.resize = this.setValues
       }
@@ -170,6 +171,10 @@ class Snuggle extends React.PureComponent<ISnuggle> {
   }
 }
 
-export default React.forwardRef((props: ISnuggle, ref: any) => (
+const ExportableSnuggle = React.forwardRef((props, ref) => (
   <Snuggle innerRef={ref} {...props} />
 ))
+
+export default (ExportableSnuggle as unknown) as React.ComponentType<
+  SnuggleProps
+> & { resize: () => void }

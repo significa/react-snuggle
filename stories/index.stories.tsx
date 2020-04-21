@@ -1,10 +1,8 @@
 import React, { useRef, useEffect } from 'react'
 import { storiesOf } from '@storybook/react'
-import { withKnobs, text, boolean, number } from '@storybook/addon-knobs'
 
 import './style.css'
 import Snuggle from '../src'
-
 import {
   ItemStyled,
   listElements,
@@ -34,12 +32,12 @@ storiesOf('Snuggle', module)
   .add('on update grid', () => <OnUpdateGrid />)
 
 const ResizeElements = () => {
-  const ref = useRef()
+  const ref = useRef<typeof Snuggle>(null)
 
   useEffect(() => {
     const setResize = () => {
-      if (ref.current && ref.current.resize) {
-        ref.current.resize()
+      if (ref?.current) {
+        ref?.current.resize()
       }
     }
 
@@ -58,8 +56,6 @@ const ResizeElements = () => {
 }
 
 storiesOf('Options', module)
-  .addDecorator(withKnobs)
-
   .add('custom container (<ul />)', () => (
     <div className="wrap">
       <Snuggle
@@ -94,7 +90,7 @@ storiesOf('Options', module)
   .add('custom gap', () => (
     <div className="wrap">
       <h1>See Knobs panel</h1>
-      <Snuggle rowGap={number('rowGap', 20)} item={<div className="card" />}>
+      <Snuggle rowGap={20} item={<div className="card" />}>
         {listElements(true)}
       </Snuggle>
     </div>
@@ -103,10 +99,7 @@ storiesOf('Options', module)
   .add('custom column width', () => (
     <div className="wrap">
       <h1>See Knobs panel</h1>
-      <Snuggle
-        columnWidth={number('columnWidth', 400)}
-        item={<div className="card" />}
-      >
+      <Snuggle columnWidth={400} item={<div className="card" />}>
         {listElements(true)}
       </Snuggle>
     </div>

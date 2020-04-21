@@ -1,17 +1,8 @@
 {
+  "extends": "./node_modules/@significa/tsconfig-config/index.json",
   "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./dist/types",
-    "outDir": "./dist",
-    "target": "es6",
-    "jsx": "react",
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "resolveJsonModule": true, // To load package.json
-    "esModuleInterop": true,
-    "moduleResolution": "node",
-    "noEmit": true
-  },
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"]
+    "rootDirs": ["src", "stories"],
+    "outDir": "build/lib",
+    "noEmit": false
+  }
 }
