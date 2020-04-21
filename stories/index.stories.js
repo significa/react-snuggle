@@ -33,26 +33,31 @@ storiesOf('Snuggle', module)
 
   .add('on update grid', () => <OnUpdateGrid />)
 
-const ResizeElements = () => {
+const OnLoadImage = () => {
   const ref = useRef()
 
-  useEffect(() => {
-    const setResize = () => {
-      if (ref.current && ref.current.resize) {
-        ref.current.resize()
-      }
+  const onLoadImage = () => {
+    if (ref.current && ref.current.resize) {
+      ref.current.resize()
     }
-
-    window.addEventListener('resize', setResize)
-
-    return () => {
-      window.removeEventListener('resize', setResize)
-    }
-  }, [])
+  }
 
   return (
     <div className="wrap">
-      <Snuggle ref={ref}>{listElements()}</Snuggle>
+      <Snuggle ref={ref}>
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/500/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/401/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/602/400`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/604/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/500/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/401/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/602/400`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/604/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/500/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/401/600`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/602/400`} />
+        <img className="image" onLoad={onLoadImage} src={`https://picsum.photos/604/600`} />
+      </Snuggle>
     </div>
   )
 }
@@ -112,7 +117,7 @@ storiesOf('Options', module)
     </div>
   ))
 
-  .add('on resize method', () => <ResizeElements />)
+  .add('on load image method', () => <OnLoadImage />)
 
 storiesOf('Third party dependencies', module).add('with scroll reveal', () => (
   <RevealAnimation />

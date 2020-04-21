@@ -10,12 +10,15 @@ interface ISnuggle {
   rowGap?: number
   uniqueid?: string
   innerRef?: any
+  ref?: React.RefObject<
+    React.ComponentType<ISnuggle> & { resize: () => void }
+  >
 }
 
 const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
 const removeBlackListed = removeKeys(blackListProps)
 
-class Snuggle extends React.PureComponent<ISnuggle> {
+class Snuggle extends React.Component<ISnuggle> {
   static defaultProps = {
     columnWidth: 250,
     container: React.createElement('div'),
@@ -53,14 +56,14 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     }
   }
 
-  setValues = (): null => {
+  setValues = () => {
     const { rowGap = 0 } = this.props
 
     if (this.elements.length === 0) {
-      return null
+      return
     }
 
-    this.elements.forEach((item: HTMLElement): null => {
+    this.elements.forEach((item: HTMLElement) => {
       const itemRef: HTMLElement = item
 
       if (itemRef && itemRef.firstElementChild) {
@@ -70,8 +73,6 @@ class Snuggle extends React.PureComponent<ISnuggle> {
 
         itemRef.style.gridRowEnd = `span ${rowSpan}`
       }
-
-      return null
     })
 
     if (!this.reposition) {
@@ -129,7 +130,7 @@ class Snuggle extends React.PureComponent<ISnuggle> {
     const refGrid = (node: HTMLElement): void => {
       this.grid = node
 
-      if (innerRef.current) {
+      if (innerRef && innerRef.current) {
         innerRef.current = node
         innerRef.current.resize = this.setValues
       }
@@ -170,6 +171,10 @@ class Snuggle extends React.PureComponent<ISnuggle> {
   }
 }
 
-export default React.forwardRef((props: ISnuggle, ref: any) => (
+const ExportableSnuggle = React.forwardRef((props, ref) => (
   <Snuggle innerRef={ref} {...props} />
 ))
+
+export default (ExportableSnuggle as unknown) as React.ComponentType<
+  ISnuggle
+> & { resize: () => void }
