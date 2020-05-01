@@ -2,7 +2,7 @@ import React, { useRef, createElement } from 'react'
 import { storiesOf } from '@storybook/react'
 
 import './style.css'
-import Snuggle from '../src'
+import Snuggle, { SnuggleChild } from '../src'
 import {
   ItemStyled,
   listElements,
@@ -14,20 +14,25 @@ storiesOf('Snuggle', module)
   .add('default', () => (
     <div className="wrap">
       <Snuggle>
-        <img
-          style={{ width: '100%' }}
-          alt="Placeholder"
-          src="https://picsum.photos/500/200"
-        />
+        <SnuggleChild span={2}>
+          <img
+            style={{ width: '100%' }}
+            alt="Placeholder"
+            src="https://picsum.photos/500/200"
+          />
+        </SnuggleChild>
+
+        <SnuggleChild span={2}>
+          <img
+            style={{ width: '100%' }}
+            alt="Placeholder"
+            src="https://picsum.photos/300/200"
+          />
+        </SnuggleChild>
         <img
           style={{ width: '100%' }}
           alt="Placeholder"
           src="https://picsum.photos/300/300"
-        />
-        <img
-          style={{ width: '100%' }}
-          alt="Placeholder"
-          src="https://picsum.photos/300/200"
         />
         <img
           style={{ width: '100%' }}

@@ -24,6 +24,10 @@ interface SnuggleProps {
   >
 }
 
+export const SnuggleChild: React.FC<{ span?: number }> = ({ children }) => (
+  <>{children}</>
+)
+
 /**
  * Helpers
  */
@@ -69,13 +73,18 @@ const Snuggle: React.FC<SnuggleProps> = ({
 
   // Methods
   const settle = useCallback(() => {
-    elementsRef.current?.forEach((item: HTMLElement) => {
+    const childrenArr = Array.isArray(children) ? children : [children]
+
+    elementsRef.current?.forEach((item, index) => {
+      const { span } = childrenArr?.[index]?.props
+
       if (item && item.firstElementChild) {
         const firstElement = item.firstElementChild
         const itemHeight = firstElement.getBoundingClientRect().height
         const rowSpan = Math.ceil((itemHeight + rowGap) / rowGap)
 
         item.style.gridRowEnd = `span ${rowSpan}`
+        item.style.gridColumn = `span ${span}`
       }
     })
 
@@ -83,7 +92,7 @@ const Snuggle: React.FC<SnuggleProps> = ({
       window.requestAnimationFrame(settle)
       reposition.current = true
     }
-  }, [rowGap])
+  }, [children, rowGap])
 
   // Effects
   useEffect(() => {
