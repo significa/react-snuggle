@@ -13,47 +13,46 @@ import {
 storiesOf('Snuggle', module)
   .add('default', () => (
     <div className="wrap">
-      <Snuggle>{listElements()}</Snuggle>
+      <Snuggle>{listElements('complete')}</Snuggle>
     </div>
   ))
 
-  .add('with images', () => (
+  .add('images', () => (
     <div className="wrap">
-      <Snuggle item={<div className="card" />}>{listElements(true)}</Snuggle>
+      <Snuggle item={<div className="card" />}>
+        {listElements('onlyImage')}
+      </Snuggle>
+    </div>
+  ))
+
+  .add('images and texts', () => (
+    <div className="wrap">
+      <Snuggle item={<div className="card" />}>
+        {listElements('complete')}
+      </Snuggle>
+    </div>
+  ))
+
+  .add('on image load', () => (
+    <div className="wrap">
+      <Snuggle item={<div className="card" />}>
+        {listElements('complete')}
+      </Snuggle>
     </div>
   ))
 
   .add('no style', () => (
     <div className="wrap">
-      <Snuggle>{listElements()}</Snuggle>
+      <Snuggle>{listElements('onlyText')}</Snuggle>
     </div>
   ))
 
-  .add('on update grid', () => <OnUpdateGrid />)
-
-const ResizeElements = () => {
-  const ref = useRef<typeof Snuggle>(null)
-
-  useEffect(() => {
-    const setResize = () => {
-      if (ref?.current) {
-        ref?.current.resize()
-      }
-    }
-
-    window.addEventListener('resize', setResize)
-
-    return () => {
-      window.removeEventListener('resize', setResize)
-    }
-  }, [])
-
-  return (
-    <div className="wrap">
-      <Snuggle ref={ref}>{listElements()}</Snuggle>
-    </div>
-  )
-}
+// TODO
+// .add('span', () => (
+//   <div className="wrap">
+//     <Snuggle>{listElements()}</Snuggle>
+//   </div>
+// ))
 
 storiesOf('Options', module)
   .add('custom container (<ul />)', () => (
@@ -66,7 +65,7 @@ storiesOf('Options', module)
           />
         }
       >
-        {listElements(true)}
+        {listElements('onlyImage')}
       </Snuggle>
     </div>
   ))
@@ -76,14 +75,14 @@ storiesOf('Options', module)
       <Snuggle
         item={<li style={{ border: '1px solid #ddd', padding: '8px' }} />}
       >
-        {listElements(true)}
+        {listElements('onlyImage')}
       </Snuggle>
     </div>
   ))
 
   .add('with Styled Components', () => (
     <div className="wrap">
-      <Snuggle item={<ItemStyled />}>{listElements(true)}</Snuggle>
+      <Snuggle item={<ItemStyled />}>{listElements('onlyImage')}</Snuggle>
     </div>
   ))
 
@@ -91,7 +90,7 @@ storiesOf('Options', module)
     <div className="wrap">
       <h1>See Knobs panel</h1>
       <Snuggle rowGap={20} item={<div className="card" />}>
-        {listElements(true)}
+        {listElements('onlyImage')}
       </Snuggle>
     </div>
   ))
@@ -100,12 +99,10 @@ storiesOf('Options', module)
     <div className="wrap">
       <h1>See Knobs panel</h1>
       <Snuggle columnWidth={400} item={<div className="card" />}>
-        {listElements(true)}
+        {listElements('onlyImage')}
       </Snuggle>
     </div>
   ))
-
-  .add('on resize method', () => <ResizeElements />)
 
 storiesOf('Third party dependencies', module).add('with scroll reveal', () => (
   <RevealAnimation />

@@ -19,9 +19,10 @@
   "scripts": {
     "dev": "start-storybook -p 6006",
     "build": "rm -fr ./dist && rollup -c",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "test": "npm run lint && npm run tsc",
     "publish:storybook": "build-storybook && storybook-to-ghpages",
-    "format": "prettier --write \"src/**/*.tsx\"",
+    "format": "prettier \"(src|stories)/**/*.+(ts|tsx|js|jsx|json|yml|yaml|md|mdx)\" --write",
     "tsc": "node_modules/.bin/tsc",
     "semantic-release": "semantic-release",
     "storybook": "start-storybook -p 6006",
@@ -70,7 +71,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.9.6",
-    "babel-preset-react-app": "^9.1.2"
+    "@types/scrollreveal": "0.0.6",
+    "@types/styled-components": "^5.1.0",
+    "babel-preset-react-app": "^9.1.2",
+    "eslint": "^6.8.0"
   },
   "config": {
     "commitizen": {
