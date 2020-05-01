@@ -1,4 +1,4 @@
-import React, { Component, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import ScrollReveal from 'scrollreveal'
 
@@ -23,14 +23,15 @@ export const Image = ({ index, ...props }: any) => (
 )
 
 export const listElements = (
-  variant: 'onlyText' | 'onlyImage' | 'complete' = 'complete'
+  variant: 'onlyText' | 'onlyImage' | 'complete' = 'complete',
+  imageProps = {}
 ) =>
   Array(30)
     .fill(' ')
     .map((_item, index) => (
       <div key={index}>
         {variant === 'complete' || variant === 'onlyImage' ? (
-          <Image index={index} />
+          <Image index={index} {...imageProps} />
         ) : null}
 
         {variant === 'complete' || variant === 'onlyText' ? (
@@ -43,91 +44,66 @@ export const listElements = (
       </div>
     ))
 
-export class OnUpdateGrid extends Component {
-  state = {
-    arr: listElements('complete'),
-  }
+export const OnUpdateGrid = () => {
+  const snuggleRef = useRef<typeof Snuggle>(null)
 
-  random = () => {
-    const newArr = this.state.arr
+  const [items, setItems] = useState(
+    listElements('complete', {
+      onLoad: () => {
+        if (snuggleRef.current) {
+          snuggleRef.current.settle()
+        }
+      },
+    })
+  )
+
+  const random = () => {
+    const newArr = listElements('complete', {
+      onLoad: () => {
+        if (snuggleRef.current) {
+          snuggleRef.current.settle()
+        }
+      },
+    })
       .map((a) => ({ sort: Math.random(), value: a }))
       .sort((a, b) => a.sort - b.sort)
       .map((a) => a.value)
 
-    this.setState({ arr: newArr })
+    setItems(newArr)
   }
 
-  render() {
-    return (
-      <div className="wrap">
-        <button onClick={this.random}>Update</button>
-        <Snuggle item={<div className="card" />}>{this.state.arr}</Snuggle>
-      </div>
-    )
-  }
+  return (
+    <div className="wrap">
+      <button onClick={random}>Update</button>
+      <Snuggle ref={snuggleRef} item={<li className="card" />}>
+        {items}
+      </Snuggle>
+    </div>
+  )
 }
 
-export class RevealAnimation extends React.Component {
-  constructor(props: any) {
-    super(props)
-  }
-
-  componentDidMount() {
-    ScrollReveal().reveal('.card', { reset: true })
-  }
-
-  render() {
-    return (
-      <div className="wrap">
-        <Snuggle
-          container={<ul className="reveal" />}
-          item={<li className="card" />}
-        >
-          {Array(120)
-            .fill(' ')
-            .map((_item, index) => (
-              <div key={index}>
-                {index % 3 ? (
-                  <img
-                    className="image"
-                    src={`https://picsum.photos/400/300`}
-                    height="150"
-                    alt="placeholder"
-                  />
-                ) : null}
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                  facilisis fringilla laoreet. Mauris mattis enim ut felis
-                  consectetur
-                </p>
-              </div>
-            ))}
-        </Snuggle>
-      </div>
-    )
-  }
-}
-
-const OnLoadImage = () => {
-  const ref = useRef<typeof Snuggle>(null)
+export const RevealAnimation = () => {
+  const snuggleRef = useRef<typeof Snuggle>(null)
 
   useEffect(() => {
-    const setResize = () => {
-      if (ref?.current) {
-        ref?.current.settle()
-      }
-    }
-
-    window.addEventListener('resize', setResize)
-
-    return () => {
-      window.removeEventListener('resize', setResize)
-    }
+    ScrollReveal().reveal('.card', { reset: true })
   }, [])
 
   return (
     <div className="wrap">
-      <Snuggle ref={ref}>{listElements('onlyImage')}</Snuggle>
+      <Snuggle
+        ref={snuggleRef}
+        container={<ul className="reveal" />}
+        item={<li className="card" />}
+      >
+        {listElements('complete', {
+          onLoad: () => {
+            if (snuggleRef.current) {
+              snuggleRef.current.settle()
+            }
+          },
+        })}
+      </Snuggle>
     </div>
   )
 }

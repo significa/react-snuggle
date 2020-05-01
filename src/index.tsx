@@ -31,13 +31,19 @@ const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
 const removeBlackListed = removeKeys(blackListProps)
 
 // TODO: Should have a way to expose it to a third part?
-const createGridStyle = ({ gridId = '', columnWidth = 0, rowGap = 0 }) => {
+const createGridStyle = ({
+  gridId = '',
+  columnWidth = 0,
+  rowGap = 0,
+  childrenLength = 0,
+}) => {
   return `
     <style>
       .${gridId} {
         display: grid;
         grid-gap: ${rowGap}px;
         grid-template-columns: repeat(auto-fill, minmax(${columnWidth}px, 1fr));
+        grid-template-rows: repeat(${childrenLength}, 0);
       }
     </style>`
 }
@@ -65,9 +71,9 @@ const Snuggle: React.FC<SnuggleProps> = ({
   const settle = useCallback(() => {
     elementsRef.current?.forEach((item: HTMLElement) => {
       if (item && item.firstElementChild) {
-        const firstElement: Element = item.firstElementChild
-        const itemHeight: number = firstElement.getBoundingClientRect().height
-        const rowSpan: number = Math.ceil((itemHeight + rowGap) / rowGap)
+        const firstElement = item.firstElementChild
+        const itemHeight = firstElement.getBoundingClientRect().height
+        const rowSpan = Math.ceil((itemHeight + rowGap) / rowGap)
 
         item.style.gridRowEnd = `span ${rowSpan}`
       }
@@ -88,14 +94,14 @@ const Snuggle: React.FC<SnuggleProps> = ({
     return () => {
       window.removeEventListener('resize', settle)
     }
-  }, [settle])
+  }, [settle, children])
 
   // Render
   const refGrid = (node: HTMLElement) => {
     gridRef.current = node
 
     // Pass methods to ref
-    if (innerRef && innerRef.current) {
+    if (innerRef && node) {
       innerRef.current = node
       innerRef.current.settle = settle
     }
@@ -133,7 +139,12 @@ const Snuggle: React.FC<SnuggleProps> = ({
     <>
       {createElement('div', {
         dangerouslySetInnerHTML: {
-          __html: createGridStyle({ gridId, rowGap, columnWidth }),
+          __html: createGridStyle({
+            gridId,
+            rowGap,
+            columnWidth,
+            childrenLength: Children.count(children),
+          }),
         },
       })}
       {createElement(container.type, containerProps, renderChildren)}
