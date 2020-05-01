@@ -69,7 +69,7 @@ const Snuggle: React.FC<SnuggleProps> = ({
 
   // Methods
   const settle = useCallback(() => {
-    elementsRef.current?.forEach((item: HTMLElement) => {
+    elementsRef.current?.forEach((item) => {
       if (item && item.firstElementChild) {
         const firstElement = item.firstElementChild
         const itemHeight = firstElement.getBoundingClientRect().height
@@ -85,16 +85,29 @@ const Snuggle: React.FC<SnuggleProps> = ({
     }
   }, [rowGap])
 
+  const events = useCallback(() => {
+    elementsRef.current?.forEach((item) => {
+      if (item instanceof HTMLImageElement) {
+        return (item.onload = settle)
+      }
+
+      return item
+        .querySelectorAll('img')
+        .forEach((img) => (img.onload = settle))
+    })
+  }, [settle])
+
   // Effects
   useEffect(() => {
     settle()
+    events()
 
     window.addEventListener('resize', settle)
 
     return () => {
       window.removeEventListener('resize', settle)
     }
-  }, [settle, children])
+  }, [settle, children, events])
 
   // Render
   const refGrid = (node: HTMLElement) => {
