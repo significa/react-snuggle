@@ -8,11 +8,17 @@ export const ItemStyled = styled.div`
   border-bottom: 1px solid #ddd;
 `
 
-export const Image = ({ index }: any) => (
+const random = (min: number, max: number) => {
+  return Number(Math.floor(Math.random() * (max - min + 1)) + min).toFixed(0)
+}
+
+export const Image = ({ index, ...props }: any) => (
   <img
+    style={{ display: 'block' }}
     className="image"
     alt="Placeholder"
-    src={`https://picsum.photos/100${index % 10}/600`}
+    src={`https://picsum.photos/200/${random(10, 30)}0`}
+    {...props}
   />
 )
 
@@ -108,7 +114,7 @@ const OnLoadImage = () => {
   useEffect(() => {
     const setResize = () => {
       if (ref?.current) {
-        ref?.current.resize()
+        ref?.current.settle()
       }
     }
 

@@ -3,6 +3,5 @@
   "compilerOptions": {
     "rootDirs": ["src", "stories"],
     "outDir": "build/lib",
-    "noEmit": false
   }
 }

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react'
+import React from 'react'
 import { storiesOf } from '@storybook/react'
 
 import './style.css'
@@ -19,11 +19,18 @@ storiesOf('Snuggle', module)
 
   .add('images', () => (
     <div className="wrap">
-      <Snuggle item={<div className="card" />}>
-        {listElements('onlyImage')}
-      </Snuggle>
+      <Snuggle>{listElements('onlyImage')}</Snuggle>
     </div>
   ))
+
+  // TODO
+  // .add('known element size', () => (
+  //   <div className="wrap">
+  //     <Snuggle item={<div className="card" />}>
+  //       {listElements('onlyImage')}
+  //     </Snuggle>
+  //   </div>
+  // ))
 
   .add('images and texts', () => (
     <div className="wrap">
@@ -33,13 +40,14 @@ storiesOf('Snuggle', module)
     </div>
   ))
 
-  .add('on image load', () => (
-    <div className="wrap">
-      <Snuggle item={<div className="card" />}>
-        {listElements('complete')}
-      </Snuggle>
-    </div>
-  ))
+  // TODO
+  // .add('on image load', () => (
+  //   <div className="wrap">
+  //     <Snuggle item={<div className="card" />}>
+  //       {listElements('complete')}
+  //     </Snuggle>
+  //   </div>
+  // ))
 
   .add('no style', () => (
     <div className="wrap">
@@ -52,7 +60,7 @@ storiesOf('Snuggle', module)
 //   <div className="wrap">
 //     <Snuggle>{listElements()}</Snuggle>
 //   </div>
-// ))
+// )))
 
 storiesOf('Options', module)
   .add('custom container (<ul />)', () => (
@@ -65,7 +73,7 @@ storiesOf('Options', module)
           />
         }
       >
-        {listElements('onlyImage')}
+        {listElements('complete')}
       </Snuggle>
     </div>
   ))
@@ -75,34 +83,34 @@ storiesOf('Options', module)
       <Snuggle
         item={<li style={{ border: '1px solid #ddd', padding: '8px' }} />}
       >
-        {listElements('onlyImage')}
+        {listElements('complete')}
       </Snuggle>
     </div>
   ))
 
   .add('with Styled Components', () => (
     <div className="wrap">
-      <Snuggle item={<ItemStyled />}>{listElements('onlyImage')}</Snuggle>
+      <Snuggle item={<ItemStyled />}>{listElements('complete')}</Snuggle>
     </div>
   ))
 
   .add('custom gap', () => (
     <div className="wrap">
-      <h1>See Knobs panel</h1>
       <Snuggle rowGap={20} item={<div className="card" />}>
-        {listElements('onlyImage')}
+        {listElements('complete')}
       </Snuggle>
     </div>
   ))
 
   .add('custom column width', () => (
     <div className="wrap">
-      <h1>See Knobs panel</h1>
       <Snuggle columnWidth={400} item={<div className="card" />}>
-        {listElements('onlyImage')}
+        {listElements('complete')}
       </Snuggle>
     </div>
   ))
+
+  .add('on update grid', () => <OnUpdateGrid />)
 
 storiesOf('Third party dependencies', module).add('with scroll reveal', () => (
   <RevealAnimation />

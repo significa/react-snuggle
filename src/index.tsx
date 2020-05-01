@@ -1,8 +1,17 @@
-import * as React from 'react'
+import React, {
+  useRef,
+  useEffect,
+  createElement,
+  Children,
+  useCallback,
+} from 'react'
 
 import removeKeys from './removeKeys'
 import key from './uid'
 
+/**
+ * Interface
+ */
 interface SnuggleProps {
   columnWidth?: number
   container?: React.ReactElement<any>
@@ -11,164 +20,125 @@ interface SnuggleProps {
   uniqueid?: string
   innerRef?: any
   ref?: React.RefObject<
-    React.ComponentType<SnuggleProps> & { resize: () => void }
+    React.ComponentType<SnuggleProps> & { settle: () => void }
   >
 }
 
+/**
+ * Helpers
+ */
 const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
 const removeBlackListed = removeKeys(blackListProps)
 
-class Snuggle extends React.Component<SnuggleProps> {
-  static defaultProps = {
-    columnWidth: 250,
-    container: React.createElement('div'),
-    item: React.createElement('div'),
-    rowGap: 20,
-    uniqueid: '',
-  }
+// TODO: Should have a way to expose it to a third part?
+const createGridStyle = ({ gridId = '', columnWidth = 0, rowGap = 0 }) => {
+  return `
+    <style>
+      .${gridId} {
+        display: grid;
+        grid-gap: ${rowGap}px;
+        grid-template-columns: repeat(auto-fill, minmax(${columnWidth}px, 1fr));
+      }
+    </style>`
+}
 
-  gridId: string | null = null
+/**
+ * Main components
+ */
+const Snuggle: React.FC<SnuggleProps> = ({
+  container = createElement('div'),
+  item = createElement('div'),
+  innerRef,
+  uniqueid,
+  children,
+  rowGap = 20,
+  columnWidth = 250,
+  ...props
+}) => {
+  // Constants
+  const gridId = `snuggle--${uniqueid || key()}`
+  const reposition = useRef(false)
+  const elementsRef = useRef<HTMLElement[]>([])
+  const gridRef = useRef<HTMLElement>()
 
-  reposition = false
-
-  elements: HTMLElement[] = []
-
-  grid: null | HTMLElement = null
-
-  constructor(props: SnuggleProps) {
-    super(props)
-
-    this.gridId = `snuggle--${props.uniqueid || key()}`
-  }
-
-  componentDidMount() {
-    this.setValues()
-    this.onLoadImages()
-  }
-
-  componentDidUpdate() {
-    this.setValues()
-  }
-
-  getRef = (ref: HTMLElement) => {
-    if (ref && ref.firstElementChild) {
-      this.elements.push(ref)
-    }
-  }
-
-  setValues = () => {
-    const { rowGap = 0 } = this.props
-
-    if (this.elements.length === 0) {
-      return
-    }
-
-    this.elements.forEach((item: HTMLElement) => {
-      const itemRef: HTMLElement = item
-
-      if (itemRef && itemRef.firstElementChild) {
-        const firstElement: Element = itemRef.firstElementChild
+  // Methods
+  const settle = useCallback(() => {
+    elementsRef.current?.forEach((item: HTMLElement) => {
+      if (item && item.firstElementChild) {
+        const firstElement: Element = item.firstElementChild
         const itemHeight: number = firstElement.getBoundingClientRect().height
         const rowSpan: number = Math.ceil((itemHeight + rowGap) / rowGap)
 
-        itemRef.style.gridRowEnd = `span ${rowSpan}`
+        item.style.gridRowEnd = `span ${rowSpan}`
       }
     })
 
-    if (!this.reposition) {
-      window.requestAnimationFrame(this.setValues)
-      this.reposition = true
+    if (!reposition.current) {
+      window.requestAnimationFrame(settle)
+      reposition.current = true
+    }
+  }, [rowGap])
+
+  // Effects
+  useEffect(() => {
+    settle()
+
+    window.addEventListener('resize', settle)
+
+    return () => {
+      window.removeEventListener('resize', settle)
+    }
+  }, [settle])
+
+  // Render
+  const refGrid = (node: HTMLElement) => {
+    gridRef.current = node
+
+    // Pass methods to ref
+    if (innerRef && innerRef.current) {
+      innerRef.current = node
+      innerRef.current.settle = settle
     }
   }
 
-  onLoadImages = () => {
-    if (this.grid) {
-      const images = this.grid.getElementsByTagName('img')
-
-      Array.from(images).forEach((img: HTMLImageElement): void => {
-        const imageRef = img
-
-        imageRef.onload = () => {
-          this.setValues()
-        }
-      })
-    }
-  }
-
-  createGridStyle = () => {
-    const { rowGap = 0, columnWidth = 0 } = this.props
-
-    return `
-      <style>
-        .${this.gridId} {
-          display: grid;
-          grid-gap: ${rowGap}px;
-          grid-template-columns: repeat(auto-fill, minmax(${columnWidth}px, 1fr));
-        }
-      </style>`
-  }
-
-  render() {
-    const {
-      children,
-      item = React.createElement('div'),
-      container = React.createElement('div'),
-      innerRef,
-      ...compProps
-    } = this.props
-
-    const hasChildren: boolean = React.Children.count(children) > 0
-
-    if (!hasChildren) {
+  // New children
+  const renderChildren = Children.map(children, (child, index) => {
+    if (!item) {
       return null
     }
 
-    const refItem = (n: HTMLElement): void => {
-      this.getRef(n)
-    }
-
-    const refGrid = (node: HTMLElement): void => {
-      this.grid = node
-
-      if (innerRef && innerRef.current) {
-        innerRef.current = node
-        innerRef.current.resize = this.setValues
-      }
-    }
-
-    const renderChildren = React.Children.map(
-      children,
-      (child: React.ReactNode) => {
-        const itemProps = removeBlackListed({
-          ...item.props,
-          key: key(),
-          ref: refItem,
-        })
-
-        if (item) {
-          return React.createElement(item.type, itemProps, child)
+    // Create a wrap on child
+    const itemProps = removeBlackListed({
+      ...item.props,
+      key: key(),
+      ref: (node: HTMLElement) => {
+        if (elementsRef.current) {
+          elementsRef.current[index] = node
         }
-
-        return null
-      }
-    )
-
-    const containerProps = removeBlackListed({
-      ...container.props,
-      ...compProps,
-      className: `${this.gridId} ${container.props.className || ''}`,
-      ref: refGrid,
+      },
     })
 
-    return (
-      <>
-        {React.createElement('div', {
-          dangerouslySetInnerHTML: { __html: this.createGridStyle() },
-        })}
-        {React.createElement(container.type, containerProps, renderChildren)}
-      </>
-    )
-  }
+    return createElement(item.type, itemProps, child)
+  })
+
+  // Container Props
+  const containerProps = removeBlackListed({
+    ...container.props,
+    ...props,
+    className: `${gridId} ${container.props.className || ''}`,
+    ref: refGrid,
+  })
+
+  return (
+    <>
+      {createElement('div', {
+        dangerouslySetInnerHTML: {
+          __html: createGridStyle({ gridId, rowGap, columnWidth }),
+        },
+      })}
+      {createElement(container.type, containerProps, renderChildren)}
+    </>
+  )
 }
 
 const ExportableSnuggle = React.forwardRef((props, ref) => (
@@ -177,4 +147,4 @@ const ExportableSnuggle = React.forwardRef((props, ref) => (
 
 export default (ExportableSnuggle as unknown) as React.ComponentType<
   SnuggleProps
-> & { resize: () => void }
+> & { settle: () => void }
