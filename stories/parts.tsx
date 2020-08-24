@@ -8,7 +8,7 @@ export const ItemStyled = styled.div`
   border-bottom: 1px solid #ddd;
 `
 
-const random = (min: number, max: number) => {
+export const random = (min: number, max: number) => {
   return Number(Math.floor(Math.random() * (max - min + 1)) + min).toFixed(0)
 }
 
@@ -41,6 +41,28 @@ export const listElements = (
               : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur,'}
           </p>
         ) : null}
+      </div>
+    ))
+
+export const lisLazyElements = (imageProps = {}) =>
+  Array(30)
+    .fill(' ')
+    .map((_item, index) => (
+      <div key={index}>
+        <LazyLoadImage
+          style={{ display: 'block' }}
+          className="image"
+          alt="Placeholder"
+          src={`https://picsum.photos/200/${random(10, 30)}0`}
+          index={index}
+          {...imageProps}
+        />
+
+        <p>
+          {index % 2 === 0
+            ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, mattis nibh ut, faucibus leo. Sed lectus libero, volutpat at eros quis, venenatis tempus neque. Nulla vel faucibus orci.'
+            : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur,'}
+        </p>
       </div>
     ))
 

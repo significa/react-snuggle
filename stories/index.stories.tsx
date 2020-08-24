@@ -1,5 +1,6 @@
-import React, { useRef, createElement } from 'react'
+import React, { createElement, useRef } from 'react'
 import { storiesOf } from '@storybook/react'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 import './style.css'
 import Snuggle from '../src'
@@ -8,6 +9,7 @@ import {
   listElements,
   OnUpdateGrid,
   RevealAnimation,
+  random,
 } from './parts'
 
 storiesOf('Snuggle', module)
@@ -76,7 +78,7 @@ storiesOf('Snuggle', module)
     </div>
   ))
 
-  .add('re-snuggle', () =>
+  .add('lazy-loading', () =>
     createElement(() => {
       const snuggleRef = useRef<typeof Snuggle>(null)
 
@@ -88,29 +90,34 @@ storiesOf('Snuggle', module)
 
       return (
         <div className="wrap">
-          <Snuggle ref={snuggleRef} item={<div className="card" />}>
-            {listElements('complete', { onLoad: onLoadImage })}
+          <Snuggle ref={snuggleRef} item={<ItemStyled />}>
+            {Array(60)
+              .fill(' ')
+              .map((_item, index) => (
+                <div key={index}>
+                  <LazyLoadImage
+                    className="image"
+                    alt="Placeholder"
+                    src={`https://picsum.photos/200/${random(10, 30)}0`}
+                    style={{
+                      display: 'block',
+                      minHeight: `${random(10, 30)}0px`,
+                    }}
+                    afterLoad={onLoadImage}
+                  />
+
+                  <p>
+                    {index % 2 === 0
+                      ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, mattis nibh ut, faucibus leo. Sed lectus libero, volutpat at eros quis, venenatis tempus neque. Nulla vel faucibus orci.'
+                      : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur,'}
+                  </p>
+                </div>
+              ))}
           </Snuggle>
         </div>
       )
     })
   )
-
-// TODO
-// .add('known element size', () => (
-//   <div className="wrap">
-//     <Snuggle item={<div className="card" />}>
-//       {listElements('onlyImage')}
-//     </Snuggle>
-//   </div>
-// ))
-
-// TODO
-// .add('span', () => (
-//   <div className="wrap">
-//     <Snuggle>{listElements()}</Snuggle>
-//   </div>
-// )))
 
 storiesOf('Options', module)
   .add('custom container (<ul />)', () => (
