@@ -44,28 +44,6 @@ export const listElements = (
       </div>
     ))
 
-export const lisLazyElements = (imageProps = {}) =>
-  Array(30)
-    .fill(' ')
-    .map((_item, index) => (
-      <div key={index}>
-        <LazyLoadImage
-          style={{ display: 'block' }}
-          className="image"
-          alt="Placeholder"
-          src={`https://picsum.photos/200/${random(10, 30)}0`}
-          index={index}
-          {...imageProps}
-        />
-
-        <p>
-          {index % 2 === 0
-            ? 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur, vitae lacinia enim auctor. Aenean vitae fermentum odio. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed dictum non orci ut dignissim. Fusce fermentum felis aliquam, mattis nibh ut, faucibus leo. Sed lectus libero, volutpat at eros quis, venenatis tempus neque. Nulla vel faucibus orci.'
-            : 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce facilisis fringilla laoreet. Mauris mattis enim ut felis consectetur,'}
-        </p>
-      </div>
-    ))
-
 export const OnUpdateGrid = () => {
   const snuggleRef = useRef<typeof Snuggle>(null)
 
