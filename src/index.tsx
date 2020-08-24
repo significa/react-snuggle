@@ -30,7 +30,6 @@ interface SnuggleProps {
 const blackListProps = ['rowGap', 'columnWidth', 'uniqueid']
 const removeBlackListed = removeKeys(blackListProps)
 
-// TODO: Should have a way to expose it to a third part?
 const createGridStyle = ({
   gridId = '',
   columnWidth = 0,

@@ -2,6 +2,7 @@
   <img width="100%" alt="React Snuggle" src="https://user-images.githubusercontent.com/4838076/45479304-097f6780-b73e-11e8-8821-fee771fa88ad.png">
 </p>
 
+<img src="https://badgen.net/bundlephobia/minzip/react-snuggle" alt="minzip" />
 Lightweight React component to create css-based masonry-like layouts.  
 Snuggle all your components really tight 🛌
 
@@ -14,7 +15,6 @@ Like a loving couple snuggling in bed, `react-snuggle` basically tries to make e
 - **🤟 Responsive:** It works on all size screens;
 - **🤙 Customizable:** Easily change how your elements should snuggle;
 - **🤝 Use your favorite library:** CSS-in-JS, css modules, plain css, whatever. Feel free to use whatever you want;
-- **💪 Performance:** Responsive solution based only in CSS (without any JS Event Listener).
 
 #### Install:
 
