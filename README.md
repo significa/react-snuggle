@@ -47,7 +47,7 @@ const List = () => (
 
 ### Methods
 
-**resize**
+**reposition**
 Recalculate all spaces available and snuggle each element z its space, it is helpful for lazing loading, resize listeners, and loading images.
 
 Example:
@@ -58,7 +58,7 @@ const Component = () => {
 
   const onLoad = () => {
     if (snuggleRef.current) {
-      snuggleRef.current.resize()
+      snuggleRef.current.settle()
     }
   }
 
