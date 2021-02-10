@@ -42,7 +42,7 @@ const List = () => (
 | ----------- | --------------- | --------- |
 | item        | _React.Element_ | `<div />` |
 | container   | _React.Element_ | `<div />` |
-| rowGap      | _Number_        | 10        |
+| rowGap      | _Number_        | 20        |
 | columnWidth | _Number_        | 250       |
 
 ### Methods
