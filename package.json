@@ -64,7 +64,7 @@
     "rollup-plugin-typescript2": "^0.27.0",
     "rollup-plugin-uglify-es": "^0.0.1",
     "scrollreveal": "^4.0.0",
-    "semantic-release": "^17.2.3",
+    "semantic-release": "^19.0.3",
     "styled-components": "^4.1.2",
     "tslint": "^5.12.0",
     "tslint-config-prettier": "^1.17.0",
